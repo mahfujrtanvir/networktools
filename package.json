@@ -1,0 +1,22 @@
+{
+  "name": "network-tools-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Network Tools - Android and iOS app (Capacitor wrapper)",
+  "scripts": {
+    "prepare-www": "node prepare-www.js",
+    "sync": "npm run prepare-www && cap sync",
+    "assets": "capacitor-assets generate --android --ios --iconBackgroundColor '#1d4ed8' --splashBackgroundColor '#1d4ed8'",
+    "android": "npm run sync && cap open android",
+    "ios": "npm run sync && cap open ios"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.5.3",
+    "@capacitor/cli": "^8.5.3",
+    "@capacitor/core": "^8.5.3",
+    "@capacitor/ios": "^8.5.3"
+  },
+  "devDependencies": {
+    "@capacitor/assets": "^3.0.5"
+  }
+}

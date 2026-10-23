@@ -1,0 +1,11 @@
+{
+  "appId": "bd.mahfuj.networktools",
+  "appName": "Network Tools",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  },
+  "ios": {
+    "contentInset": "never"
+  }
+}

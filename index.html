@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <title>Network Tools | Mahfujur Rahman</title>
+  <meta name="description" content="Free network tools: internet speed test, public IP, traceroute, ping, DNS lookup, WHOIS, open port checker, subnet calculator and SSL checker." />
+  <link rel="canonical" href="https://mahfuj.bd/tools" />
+  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/mahfujtanvir/photo/main/webtop.png" />
+  <script>
+    (function () {
+      try { if (localStorage.getItem('mr_theme') === 'dark') document.documentElement.setAttribute('data-theme', 'dark'); } catch (e) {}
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Sora:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:#f8fafc; --bg2:#f1f5f9; --surface:#fff; --surface2:#f1f5f9;
+      --accent:#1d4ed8; --accent-light:#eaf0fe; --accent2:#1e3a8a; --accent3:#15803d;
+      --text:#0f172a; --text2:#334155; --muted:#64748b; --border:rgba(15,23,42,.1);
+      --shadow:0 1px 3px rgba(15,23,42,.05),0 8px 24px rgba(15,23,42,.06);
+      --shadow-lg:0 4px 12px rgba(15,23,42,.08),0 20px 44px rgba(15,23,42,.12);
+      --grad:linear-gradient(135deg,var(--accent),var(--accent2));
+      --li:#0a66c2; --fb:#1877f2;
+    }
+    [data-theme="dark"] {
+      --bg:#0b1220; --bg2:#0f172a; --surface:#111c2e; --surface2:#162338;
+      --accent:#3b82f6; --accent-light:rgba(59,130,246,.12); --accent2:#2563eb; --accent3:#34d399;
+      --text:#f1f5f9; --text2:#cbd5e1; --muted:#94a3b8; --border:rgba(148,163,184,.2);
+      --shadow:0 8px 24px rgba(0,0,0,.35); --shadow-lg:0 20px 44px rgba(0,0,0,.5);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden}
+    :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+    main{flex:1}
+
+    /* HEADER (same as main site) */
+    header{position:fixed;width:100%;top:0;left:0;z-index:200;padding:0 5%;padding-left:max(5%,env(safe-area-inset-left));padding-right:max(5%,env(safe-area-inset-right));backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(248,250,252,.85);border-bottom:1px solid var(--border);transition:box-shadow .3s}
+    [data-theme="dark"] header{background:rgba(11,18,32,.9)}
+    header.scrolled{box-shadow:var(--shadow)}
+    nav{display:flex;justify-content:space-between;align-items:center;height:54px;max-width:1320px;margin:auto}
+    .logo{font-family:'Space Mono',monospace;font-size:20px;font-weight:700;color:var(--accent);text-decoration:none;letter-spacing:2px;display:flex;align-items:center;gap:10px}
+    .logo-avatar{width:26px;height:26px;border-radius:50%;object-fit:cover;object-position:center top;border:2px solid var(--accent);flex-shrink:0}
+    .logo .logo-name{font-family:'Sora',sans-serif;font-weight:800;letter-spacing:-.02em}
+    .logo .cur{animation:blink 1s step-end infinite}
+    @keyframes blink{50%{opacity:0}}
+    nav ul{display:flex;list-style:none;gap:32px;align-items:center}
+    nav ul li a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;letter-spacing:.3px;transition:color .2s;position:relative}
+    nav ul li a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:2px;background:var(--accent);border-radius:2px;transition:width .25s}
+    nav ul li a:hover,nav ul li a.active{color:var(--accent)}
+    nav ul li a:hover::after,nav ul li a.active::after{width:100%}
+    .nav-socials{display:flex;gap:10px;align-items:center;margin-left:8px}
+    .nav-social-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;text-decoration:none;border:1px solid var(--border);background:var(--surface);transition:transform .2s,box-shadow .2s}
+    .nav-social-icon:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+    .nav-social-icon svg{width:17px;height:17px}
+    .nav-social-icon.li svg{fill:var(--li)} .nav-social-icon.fb svg{fill:var(--fb)}
+    .nav-cta{font-family:'Space Mono',monospace;font-size:11px!important;padding:9px 18px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff!important;border-radius:6px;letter-spacing:.5px;transition:filter .2s,transform .2s}
+    .nav-cta:hover{filter:brightness(1.08);transform:translateY(-1px)}
+    .nav-cta::after{display:none!important}
+
+    .hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;width:36px;height:36px;background:var(--surface);border:1px solid var(--border);border-radius:8px;cursor:pointer;padding:8px 9px;z-index:300}
+    .hamburger span{display:block;height:2px;background:var(--text);border-radius:2px;transition:transform .3s,opacity .3s}
+    .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+    .hamburger.open span:nth-child(2){opacity:0}
+    .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+    .mobile-menu{display:none;position:fixed;inset:0;width:100%;height:100dvh;background:rgba(245,247,255,.98);backdrop-filter:blur(20px);z-index:150;padding:96px 6% 28px;flex-direction:column;transform:translateY(-12px);opacity:0;transition:transform .3s,opacity .3s;pointer-events:none;overflow-y:auto}
+    [data-theme="dark"] .mobile-menu{background:rgba(11,18,32,.98)}
+    .mobile-menu.open{transform:none;opacity:1;pointer-events:all}
+    .mobile-menu-label{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:1.5px;color:var(--muted);padding:4px 14px 14px}
+    .mobile-menu ul{list-style:none;display:flex;flex-direction:column;gap:7px;margin-bottom:24px}
+    .mobile-menu ul li a{display:flex;align-items:center;gap:12px;padding:12px 14px;color:var(--text2);text-decoration:none;font-size:14px;font-weight:600;border-radius:10px;border:1px solid transparent;background:var(--surface);min-height:44px}
+    .mobile-menu ul li a.active{background:var(--accent-light);color:var(--accent);border-color:var(--accent)}
+    .mob-link-icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;background:var(--accent-light);font-size:14px;flex-shrink:0}
+    .mobile-menu ul li a.nav-cta-mobile{background:var(--accent);color:#fff;justify-content:center;font-family:'Space Mono',monospace;font-size:12px}
+    .mobile-menu-socials{display:flex;gap:10px;padding-top:20px;border-top:1px solid var(--border);align-items:center}
+    .mobile-menu-socials span{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1px;margin-right:4px}
+    .mob-social{width:40px;height:40px;border-radius:9px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);background:var(--surface);text-decoration:none}
+    .mob-social svg{width:17px;height:17px}
+    .mob-social.li svg{fill:var(--li)} .mob-social.fb svg{fill:var(--fb)}
+
+    @media(max-width:900px){
+      nav ul{display:none}
+      .hamburger{display:flex;margin-right:16px}
+      .logo{margin-left:20px;font-size:23px}
+      .logo-avatar{width:29px;height:29px}
+      /* floating glass pill header, same as the main site */
+      header{top:max(12px,env(safe-area-inset-top,0px));left:50%;right:auto;transform:translateX(-50%);width:min(1120px,calc(100% - 24px));padding:0;
+        background:color-mix(in srgb,var(--surface) 72%,transparent)!important;backdrop-filter:blur(18px) saturate(1.6);-webkit-backdrop-filter:blur(18px) saturate(1.6);
+        border:1px solid var(--border);border-radius:24px;box-shadow:var(--shadow)}
+      header nav{padding:8px 14px 8px 18px;max-width:none}
+      .mobile-menu{display:flex;padding-top:calc(max(12px,env(safe-area-inset-top,0px)) + 84px);padding-bottom:calc(28px + env(safe-area-inset-bottom,0px))}
+    }
+    @media(max-width:600px){
+      .hamburger{margin-right:-2px}
+      .logo{font-size:22px;margin-left:0}
+      .logo-avatar{width:27px;height:27px}
+    }
+    @media(min-width:901px) and (max-width:1100px){
+      nav ul{gap:18px} nav ul li a{font-size:13px}
+      .nav-socials{margin-left:2px;gap:6px} .nav-social-icon{width:30px;height:30px}
+      .nav-cta{padding:9px 14px;white-space:nowrap}
+    }
+    @media(min-width:901px) and (max-width:1010px){.nav-socials{display:none}}
+
+    /* THEME TOGGLE */
+    #theme-toggle{position:fixed;bottom:24px;right:24px;width:42px;height:42px;border-radius:50%;background:var(--surface);border:1px solid var(--border);font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:500;box-shadow:var(--shadow);transition:transform .2s}
+    #theme-toggle:hover{transform:translateY(-3px)}
+
+    /* PAGE */
+    .page{width:100%;max-width:900px;margin:0 auto;padding:84px 20px 70px}
+    .eyebrow{display:block;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:3px;color:var(--accent);text-transform:uppercase;margin-bottom:10px}
+    /* Desktop only: hide the "// Handy Utilities" label above the Network Tools heading */
+    @media(min-width:901px){.eyebrow{display:none}}
+    h1{font-size:clamp(28px,6vw,40px);line-height:1.15;letter-spacing:-.5px;margin-bottom:8px}
+    h1 em{font-style:normal;color:var(--accent)}
+    .lead{color:var(--muted);max-width:560px;font-size:15px;margin-bottom:30px}
+
+    /* SPEED TEST */
+    .speed-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;box-shadow:var(--shadow);padding:28px 24px 24px;text-align:center}
+    .speed-card-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:6px;text-align:left}
+    .speed-card-head h2{font-size:16px;font-weight:700}
+    .speed-card-head span{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1px;color:var(--muted)}
+    .gauge{position:relative;width:min(320px,100%);margin:6px auto 0}
+    .gauge svg{width:100%;height:auto;display:block}
+    .gauge-track{fill:none;stroke:var(--surface2);stroke-width:14;stroke-linecap:round}
+    .gauge-arc{fill:none;stroke:url(#gaugeGrad);stroke-width:14;stroke-linecap:round;stroke-dasharray:100;stroke-dashoffset:100;transition:stroke-dashoffset .25s ease-out}
+    .gauge-read{position:absolute;left:0;right:0;bottom:2px}
+    .gauge-val{font-family:'Space Mono',monospace;font-size:clamp(34px,9vw,46px);font-weight:700;line-height:1}
+    .gauge-unit{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:2px;color:var(--muted);margin-top:4px}
+    .gauge-phase{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--accent);margin-top:2px;text-transform:uppercase}
+    .speed-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:22px 0 18px}
+    .speed-stat{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:12px 6px}
+    .speed-stat b{display:block;font-family:'Space Mono',monospace;font-size:clamp(14px,3.8vw,18px)}
+    .speed-stat small{display:block;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-top:3px}
+    .speed-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+    .speed-btn{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:1px;font-weight:700;background:var(--grad);color:#fff;border:none;border-radius:100px;padding:14px 34px;cursor:pointer;min-height:46px;transition:transform .2s;box-shadow:0 8px 22px rgba(29,78,216,.28)}
+    .speed-btn:hover{transform:translateY(-2px)}
+    .speed-btn.stop{background:#dc2626;box-shadow:0 8px 22px rgba(220,38,38,.28)}
+    .speed-status{font-size:13px;color:var(--muted);min-height:20px;margin-top:14px}
+    .speed-status.err{color:#dc2626}
+    .speed-note{font-size:11px;color:var(--muted);margin-top:6px}
+
+    /* TOOLS GRID */
+    .sub{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin:44px 0 14px}
+    .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+    .tool-card{display:flex;gap:14px;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px;text-decoration:none;color:inherit;box-shadow:var(--shadow);transition:transform .2s,border-color .2s,box-shadow .2s;animation:in .35s ease backwards}
+    .tool-card:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:var(--shadow-lg)}
+    .ico{flex:0 0 auto;width:44px;height:44px;border-radius:12px;background:var(--accent-light);display:flex;align-items:center;justify-content:center;font-size:21px}
+    .body{min-width:0;flex:1}
+    .body h3{font-size:15px;font-weight:700;display:flex;justify-content:space-between;gap:8px}
+    .body h3 i{font-style:normal;color:var(--accent);font-family:'Space Mono',monospace}
+    .body p{font-size:13px;color:var(--muted);margin-top:4px;line-height:1.5}
+    .ip{display:inline-block;margin-top:8px;font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--accent3);background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:3px 9px;word-break:break-all}
+    @keyframes in{from{opacity:0;transform:translateY(10px)}}
+    @media(max-width:600px){
+      .speed-card-head{flex-direction:column;align-items:flex-start;gap:2px}
+      .grid{grid-template-columns:1fr}
+      .speed-card{padding:22px 14px 20px}
+      .speed-stats{grid-template-columns:repeat(2,1fr)}
+      .speed-btn{width:100%}
+    }
+
+    /* BUILT-IN TOOLS (subnet calculator, DNS lookup) */
+    .panels{display:grid;gap:14px}
+    .panel{background:var(--surface);border:1px solid var(--border);border-radius:20px;box-shadow:var(--shadow);padding:22px 22px 20px}
+    .panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:4px}
+    .panel-head h2{font-size:16px;font-weight:700}
+    .panel-head span{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1px;color:var(--muted)}
+    .res-toggle{display:none;width:100%;margin:2px 0 10px;font-family:inherit;font-size:13px;font-weight:600;color:var(--muted);background:transparent;border:1px dashed var(--border);border-radius:12px;padding:8px 12px;min-height:38px;cursor:pointer;text-align:center;transition:color .2s,border-color .2s}
+    .res-toggle.show{display:block}
+    .res-toggle:hover{color:var(--text);border-color:var(--muted)}
+    .kv + .res-toggle{margin-top:10px}
+    .res-hidden{display:none !important}
+    .panel-desc{font-size:13px;color:var(--muted);margin-bottom:14px}
+    .field-row{display:flex;gap:10px;flex-wrap:wrap}
+    .field{flex:1 1 220px;min-width:0;font-family:'Space Mono',monospace;font-size:14px;color:var(--text);background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:12px 14px;min-height:46px}
+    .field:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-light)}
+    select.field{flex:0 0 auto;cursor:pointer}
+    .panel-btn{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:1px;font-weight:700;background:var(--grad);color:#fff;border:none;border-radius:12px;padding:0 24px;min-height:46px;cursor:pointer;transition:transform .2s}
+    .panel-btn:hover{transform:translateY(-2px)}
+    .panel-btn:disabled{opacity:.6;cursor:wait;transform:none}
+    .panel-msg{font-size:13px;color:var(--muted);min-height:20px;margin-top:12px}
+    .panel-msg.err{color:#dc2626}
+    .kv{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:4px}
+    .kv-row{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:10px 12px;min-width:0}
+    .kv-row.wide{grid-column:1/-1}
+    .kv-row dt{font-size:11px;letter-spacing:.5px;color:var(--muted)}
+    .kv-row dd{margin:0}
+    .copy{font-family:'Space Mono',monospace;font-size:14px;font-weight:700;color:var(--text);background:none;border:none;padding:2px 0;cursor:pointer;text-align:left;word-break:break-all}
+    .copy:hover{color:var(--accent)}
+    .dns-wrap{overflow-x:auto;margin-top:4px;border:1px solid var(--border);border-radius:12px}
+    .dns-table{width:100%;border-collapse:collapse;font-size:13px}
+    .dns-table th{text-align:left;font-size:11px;font-weight:600;color:var(--muted);background:var(--surface2);padding:9px 12px;white-space:nowrap}
+    .dns-table td{padding:9px 12px;border-top:1px solid var(--border);vertical-align:top}
+    .dns-table td.mono{font-family:'Space Mono',monospace;font-size:12px;word-break:break-all}
+    .dns-table td.type{font-family:'Space Mono',monospace;font-weight:700;color:var(--accent)}
+    @media(max-width:600px){
+      .kv{grid-template-columns:1fr}
+      .panel{padding:18px 14px 16px}
+      .panel-btn{width:100%}
+      select.field{flex:1 1 100%}
+    }
+
+    /* Public IP row: address and the Details / Refresh buttons on one line */
+    .kv-row.ip-row{position:relative;display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .ip-row dt{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+    .ip-row dd.ip-val{flex:1 1 auto;min-width:0;font-family:'Space Mono',monospace;font-size:15px;font-weight:700;color:var(--accent3)}
+    .ip-row dd.ip-val:not(.v6){white-space:nowrap}      /* IPv4 and status text always stay on one line */
+    .ip-row dd.ip-val.v6{word-break:break-all}          /* only a very long IPv6 address may wrap */
+    .ip-row dd.ip-actions{flex:0 0 auto;display:flex;gap:8px;align-items:center;margin:0}
+    .mini-btn{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.5px;background:var(--grad);color:#fff;border:none;border-radius:12px;padding:0 16px;min-height:38px;cursor:pointer;transition:transform .2s}
+    .mini-btn:hover{transform:translateY(-2px)}
+    .mini-btn:disabled{opacity:.6;cursor:wait;transform:none}
+    .mini-btn.icon{width:38px;padding:0;font-size:18px;line-height:1}
+    .mini-btn.icon.spin{animation:ipspin .8s linear infinite}
+    @keyframes ipspin{to{transform:rotate(360deg)}}
+    @media(prefers-reduced-motion:reduce){.mini-btn.icon.spin{animation:none}}
+    @media(max-width:600px){
+      .kv-row.ip-row{gap:8px;padding-left:10px;padding-right:10px}
+      .ip-row dd.ip-val{font-size:13px}
+      .ip-row dd.ip-actions{gap:6px}
+      .mini-btn{padding:0 11px;font-size:10.5px;min-height:36px}
+      .mini-btn.icon{width:36px;padding:0;font-size:17px}
+    }
+    @media(max-width:340px){.ip-row dd.ip-val{font-size:12px}}
+
+    /* FOOTER (same as main site) */
+    footer{padding:16px 5%;padding-bottom:max(16px,env(safe-area-inset-bottom));border-top:1px solid var(--border);background:var(--surface)}
+    .footer-inner{max-width:1320px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:16px}
+    .footer-logo{font-family:'Sora',sans-serif;font-weight:800;font-size:16px;color:var(--accent);letter-spacing:2px;text-decoration:none}
+    footer p{font-size:13px;color:var(--muted)}
+    .footer-socials{display:flex;gap:8px}
+    .footer-social{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:var(--bg);border:1px solid var(--border);text-decoration:none;transition:all .2s}
+    .footer-social:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+    .footer-social svg{width:16px;height:16px}
+    .footer-social.li svg{fill:var(--li)} .footer-social.fb svg{fill:var(--fb)}
+    @media(max-width:600px){
+      .footer-inner{flex-wrap:nowrap;gap:8px}
+      footer{padding:12px 4%}
+      footer p{font-size:11px;text-align:center;flex:1;min-width:0}
+    }
+    @media(max-width:900px){
+      /* clear the floating header with a small, even gap */
+      .page{padding-top:calc(max(12px,env(safe-area-inset-top,0px)) + 56px + 22px)}
+      .footer-logo{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+      #theme-toggle{background:var(--grad);border:0;box-shadow:0 10px 26px rgba(29,78,216,.32)}
+    }
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}html{scroll-behavior:auto}}
+  </style>
+</head>
+<body>
+  <header id="mainHeader">
+    <nav aria-label="Main navigation">
+      <a href="/" class="logo" aria-label="Mahfujur Rahman — Home">
+        <img src="https://lh3.googleusercontent.com/d/1Gvr_DFWV9osE6s7x-5WmXKp-CGQj1Sb-=w64" alt="" class="logo-avatar" width="32" height="32" decoding="async" aria-hidden="true">
+        <span class="logo-name">Mahfuj</span><span class="cur" aria-hidden="true">_</span>
+      </a>
+      <ul>
+        <li><a href="/#home">Home</a></li>
+        <li><a href="/#skills">Skills</a></li>
+        <li><a href="/#projects">Projects</a></li>
+        <li><a href="/#certifications">Certifications</a></li>
+        <li><a href="/#contact">Contact</a></li>
+        <li><a href="/#blog">Blog</a></li>
+        <li><a href="/tools" class="active" aria-current="page">Tools</a></li>
+        <li class="nav-socials">
+          <a href="https://www.linkedin.com/in/mahfuj-tanvir" target="_blank" rel="noopener noreferrer me" class="nav-social-icon li" title="LinkedIn">
+            <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          </a>
+          <a href="https://www.facebook.com/mahfuj.rtanvir" target="_blank" rel="noopener noreferrer me" class="nav-social-icon fb" title="Facebook">
+            <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/mahfuj_tanvir" target="_blank" rel="noopener noreferrer me" class="nav-social-icon" title="Instagram" style="background:linear-gradient(135deg,#f77737,#e1306c);border-color:transparent;">
+            <svg viewBox="0 0 24 24" style="fill:#fff"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+          </a>
+        </li>
+        <li><a href="/#contact" class="nav-cta">HIRE ME</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false" aria-controls="mobileMenu">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+  </header>
+
+  <div class="mobile-menu" id="mobileMenu" role="navigation" aria-label="Mobile navigation">
+    <div class="mobile-menu-label">NAVIGATE</div>
+    <ul>
+      <li><a href="/#home"><span class="mob-link-icon">🏠</span> Home</a></li>
+      <li><a href="/#skills"><span class="mob-link-icon">⚡</span> Skills</a></li>
+      <li><a href="/#projects"><span class="mob-link-icon">🔧</span> Projects</a></li>
+      <li><a href="/#certifications"><span class="mob-link-icon">🎓</span> Certifications</a></li>
+      <li><a href="/#blog"><span class="mob-link-icon">📝</span> Blog</a></li>
+      <li><a href="/tools" class="active"><span class="mob-link-icon">🛠</span> Tools</a></li>
+      <li><a href="/#contact" class="nav-cta-mobile"><span class="mob-link-icon">✉</span> HIRE ME</a></li>
+    </ul>
+    <div class="mobile-menu-socials">
+      <span>FIND ME ON</span>
+      <a href="https://www.linkedin.com/in/mahfuj-tanvir" target="_blank" rel="noopener noreferrer me" class="mob-social li" title="LinkedIn">
+        <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </a>
+      <a href="https://www.facebook.com/mahfuj.rtanvir" target="_blank" rel="noopener noreferrer me" class="mob-social fb" title="Facebook">
+        <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+      </a>
+      <a href="https://www.instagram.com/mahfuj_tanvir" target="_blank" rel="noopener noreferrer me" class="mob-social" title="Instagram" style="background:linear-gradient(135deg,#f77737,#e1306c);border-color:transparent;">
+        <svg viewBox="0 0 24 24" style="fill:#fff"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <button id="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">🌙</button>
+
+  <main class="page">
+    <span class="eyebrow">// Handy Utilities</span>
+    <h1>Network <em>Tools</em></h1>
+    <p class="lead">Test your connection first, then jump into the utilities below. Some tools open in a new tab.</p>
+
+    <!-- SPEED TEST (on top) -->
+    <div class="speed-card" id="speed-card">
+      <div class="speed-card-head">
+        <h2>⚡ Internet Speed Test</h2>
+        <span>ping · download · upload</span>
+      </div>
+      <div class="gauge">
+        <svg viewBox="0 0 220 125" role="img" aria-label="Speed gauge">
+          <defs>
+            <linearGradient id="gaugeGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#34d399"/>
+              <stop offset="55%" stop-color="#3b82f6"/>
+              <stop offset="100%" stop-color="#1d4ed8"/>
+            </linearGradient>
+          </defs>
+          <path class="gauge-track" d="M 20 110 A 90 90 0 0 1 200 110" pathLength="100"/>
+          <path class="gauge-arc" id="gauge-arc" d="M 20 110 A 90 90 0 0 1 200 110" pathLength="100"/>
+        </svg>
+        <div class="gauge-read" aria-live="polite">
+          <div class="gauge-val" id="gauge-val">0</div>
+          <div class="gauge-unit">Mbps</div>
+          <div class="gauge-phase" id="gauge-phase">Ready</div>
+        </div>
+      </div>
+      <div class="speed-stats">
+        <div class="speed-stat"><b id="sp-ping">–</b><small>Ping ms</small></div>
+        <div class="speed-stat"><b id="sp-jitter">–</b><small>Jitter ms</small></div>
+        <div class="speed-stat"><b id="sp-down">–</b><small>Download</small></div>
+        <div class="speed-stat"><b id="sp-up">–</b><small>Upload</small></div>
+      </div>
+      <div class="speed-actions">
+        <button class="speed-btn" id="speed-start" type="button">START TEST</button>
+      </div>
+      <div class="speed-status" id="speed-status" role="status"></div>
+      <div class="speed-note">Results depend on your device, Wi-Fi and the test server — run it a couple of times.</div>
+    </div>
+
+    <div class="sub">// Built-in tools</div>
+    <div class="panels">
+      <section class="panel" aria-labelledby="ip-h">
+        <div class="panel-head"><h2 id="ip-h">🌐 Your public IP</h2><span>IPv4 / IPv6</span></div>
+        <p class="panel-desc">The address the internet sees for your connection. Select Details to see your provider and approximate location.</p>
+        <dl class="kv" id="ip-out"></dl>
+        <dl class="kv" id="ip-details"></dl>
+        <div class="panel-msg" id="ip-msg" role="status"></div>
+      </section>
+
+      <section class="panel" aria-labelledby="subnet-h">
+        <div class="panel-head"><h2 id="subnet-h">🧮 Subnet calculator</h2><span>IPv4</span></div>
+        <p class="panel-desc">Enter an address with a prefix (192.168.1.10/24) or with a netmask (192.168.1.10 255.255.255.0).</p>
+        <div class="field-row">
+          <input class="field" id="subnet-in" type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="192.168.1.10/24" aria-label="IPv4 address with prefix or netmask">
+          <button class="panel-btn" id="subnet-btn" type="button">Calculate</button>
+        </div>
+        <div class="panel-msg" id="subnet-msg" role="status"></div>
+        <dl class="kv" id="subnet-out"></dl>
+      </section>
+
+      <section class="panel" aria-labelledby="dns-h">
+        <div class="panel-head"><h2 id="dns-h">🔎 DNS lookup</h2><span>DNS over HTTPS</span></div>
+        <p class="panel-desc">Look up A, AAAA, MX, NS, TXT and other records for a domain. Choose PTR to look up an IPv4 address.</p>
+        <div class="field-row">
+          <input class="field" id="dns-in" type="text" inputmode="url" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="example.com" aria-label="Domain name or IPv4 address">
+          <select class="field" id="dns-type" aria-label="Record type">
+            <option value="ALL">All common</option><option>A</option><option>AAAA</option><option>MX</option><option>NS</option><option>TXT</option><option>CNAME</option><option>SOA</option><option>CAA</option><option>PTR</option>
+          </select>
+          <button class="panel-btn" id="dns-btn" type="button">Look up</button>
+        </div>
+        <div class="panel-msg" id="dns-msg" role="status"></div>
+        <div id="dns-out"></div>
+      </section>
+
+      <section class="panel" aria-labelledby="whois-h">
+        <div class="panel-head"><h2 id="whois-h">📇 WHOIS lookup</h2><span>RDAP</span></div>
+        <p class="panel-desc">Registration details for a domain: registrar, dates, status and name servers. An IP address shows its network owner.</p>
+        <div class="field-row">
+          <input class="field" id="whois-in" type="text" inputmode="url" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="example.com" aria-label="Domain name or IP address">
+          <button class="panel-btn" id="whois-btn" type="button">Look up</button>
+        </div>
+        <div class="panel-msg" id="whois-msg" role="status"></div>
+        <dl class="kv" id="whois-out"></dl>
+      </section>
+
+      <section class="panel" aria-labelledby="lat-h">
+        <div class="panel-head"><h2 id="lat-h">📡 Latency check</h2><span>HTTPS</span></div>
+        <p class="panel-desc">Measures how fast a site responds from your browser, using 6 HTTPS requests. This is not an ICMP ping, so it includes a little server time.</p>
+        <div class="field-row">
+          <input class="field" id="lat-in" type="text" inputmode="url" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="example.com" aria-label="Host name">
+          <button class="panel-btn" id="lat-btn" type="button">Test</button>
+        </div>
+        <div class="panel-msg" id="lat-msg" role="status"></div>
+        <dl class="kv" id="lat-out"></dl>
+      </section>
+    </div>
+
+    <div class="sub">// More tools</div>
+    <div class="grid" id="grid"></div>
+  </main>
+
+  <!-- FOOTER (same as main site) -->
+  <footer>
+    <div class="footer-inner">
+      <a href="/" class="footer-logo" aria-label="Home">MR_</a>
+      <p>© 2026 Mahfujur Rahman · Network &amp; System Administration</p>
+      <div class="footer-socials">
+        <a href="https://www.linkedin.com/in/mahfuj-tanvir" target="_blank" rel="noopener noreferrer me" class="footer-social li" title="LinkedIn">
+          <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+        <a href="https://www.facebook.com/mahfuj.rtanvir" target="_blank" rel="noopener noreferrer me" class="footer-social fb" title="Facebook">
+          <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </a>
+        <a href="https://www.instagram.com/mahfuj_tanvir" target="_blank" rel="noopener noreferrer me" class="footer-social" title="Instagram" style="background:linear-gradient(135deg,#f77737,#e1306c);border-color:transparent;">
+          <svg viewBox="0 0 24 24" style="fill:#fff"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ── Header: scroll shadow + mobile menu ──
+    (function () {
+      var hdr = document.getElementById('mainHeader');
+      window.addEventListener('scroll', function () { hdr.classList.toggle('scrolled', window.scrollY > 40); }, { passive: true });
+      var hb = document.getElementById('hamburger'), mm = document.getElementById('mobileMenu');
+      function setMenu(open) {
+        hb.classList.toggle('open', open); mm.classList.toggle('open', open);
+        hb.setAttribute('aria-expanded', open ? 'true' : 'false');
+        document.body.style.overflow = open ? 'hidden' : '';
+      }
+      hb.addEventListener('click', function () { setMenu(!hb.classList.contains('open')); });
+      mm.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { setMenu(false); }); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setMenu(false); });
+    })();
+
+    // ── Theme toggle (shares mr_theme with the main site) ──
+    (function () {
+      var btn = document.getElementById('theme-toggle');
+      btn.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙';
+      btn.addEventListener('click', function () {
+        var dark = document.documentElement.getAttribute('data-theme') === 'dark';
+        if (dark) { document.documentElement.removeAttribute('data-theme'); btn.textContent = '🌙'; try { localStorage.setItem('mr_theme', 'light'); } catch (e) {} }
+        else { document.documentElement.setAttribute('data-theme', 'dark'); btn.textContent = '☀️'; try { localStorage.setItem('mr_theme', 'dark'); } catch (e) {} }
+      });
+    })();
+
+    // ── Tools list ──
+    var TOOLS = [
+      { icon:'🧭', name:'Traceroute',        desc:'Trace the hops between a server and any host.',            url:'https://tools.keycdn.com/traceroute' },
+      { icon:'🔌', name:'Open Port Checker', desc:'Check whether a port is reachable from the internet.',     url:'https://www.yougetsignal.com/tools/open-ports/' },
+      { icon:'🔒', name:'SSL Checker',       desc:'Inspect a site\u2019s certificate and TLS configuration.', url:'https://www.ssllabs.com/ssltest/' }
+    ];
+    document.getElementById('grid').innerHTML = TOOLS.map(function (t, i) {
+      return '<a class="tool-card" href="' + t.url + '" target="_blank" rel="noopener noreferrer" style="animation-delay:' + (i * 40) + 'ms">' +
+        '<span class="ico" aria-hidden="true">' + t.icon + '</span>' +
+        '<span class="body"><h3>' + t.name + ' <i aria-hidden="true">↗</i></h3><p>' + t.desc + '</p>' +
+        (t.ip ? '<span class="ip" id="tool-ip">detecting…</span>' : '') + '</span></a>';
+    }).join('');
+
+    // ── Hide / show results for each built-in tool ──
+    ['ip-details', 'subnet-out', 'dns-out', 'whois-out', 'lat-out'].forEach(function (id) {
+      var out = document.getElementById(id);
+      if (!out) return;
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'res-toggle';
+      function label() {
+        var hidden = out.classList.contains('res-hidden');
+        b.textContent = hidden ? 'Show results \u25BE' : 'Hide results \u25B4';
+        b.setAttribute('aria-expanded', hidden ? 'false' : 'true');
+      }
+      function refresh() {
+        var has = out.children.length > 0;
+        b.classList.toggle('show', has);
+        if (!has) out.classList.remove('res-hidden');
+        label();
+      }
+      b.addEventListener('click', function () { out.classList.toggle('res-hidden'); label(); });
+      out.parentNode.insertBefore(b, out);
+      // New results always reopen the output
+      new MutationObserver(function () {
+        if (out.children.length > 0) out.classList.remove('res-hidden');
+        refresh();
+      }).observe(out, { childList: true });
+      refresh();
+    });
+
+    // ── Shared helper for result rows ──
+    function addRow(list, label, value, wide) {
+      var d = document.createElement('div'); d.className = 'kv-row' + (wide ? ' wide' : '');
+      var dt = document.createElement('dt'); dt.textContent = label;
+      var dd = document.createElement('dd'); dd.className = 'copy'; dd.style.cursor = 'default'; dd.textContent = value;
+      d.appendChild(dt); d.appendChild(dd); list.appendChild(d);
+    }
+    function cleanHost(v) {
+      return v.trim().toLowerCase().replace(/^[a-z][a-z0-9+.-]*:\/\//, '').replace(/[\/?#].*$/, '').replace(/:\d+$/, '').replace(/\.$/, '');
+    }
+
+    // ── Your public IP ──
+    (function () {
+      var msg = document.getElementById('ip-msg'), out = document.getElementById('ip-out'), det = document.getElementById('ip-details');
+      var detailsOn = false, busy = false;
+      function getJson(url) { return fetch(url, { cache: 'no-store' }).then(function (r) { if (!r.ok) throw new Error('http'); return r.json(); }); }
+      function normalize(j) {
+        if (!j || j.success === false || !j.ip) throw new Error('bad');
+        var c = j.connection || {}, org = c.isp || c.org || j.org || '';
+        var asn = c.asn ? 'AS' + c.asn : ((j.org || '').match(/^AS\d+/) || [''])[0];
+        return {
+          ip: j.ip, org: org.replace(/^AS\d+\s*/, ''), asn: asn,
+          place: [j.city, j.region, j.country].filter(Boolean).join(', '),
+          tz: (j.timezone && j.timezone.id) || (typeof j.timezone === 'string' ? j.timezone : '')
+        };
+      }
+
+      // The address row, with the Details and Refresh buttons at its right edge
+      var row = document.createElement('div'); row.className = 'kv-row wide ip-row';
+      var dt = document.createElement('dt'); dt.textContent = 'IP address';
+      var val = document.createElement('dd'); val.className = 'ip-val'; val.textContent = 'Detecting…';
+      var acts = document.createElement('dd'); acts.className = 'ip-actions';
+      var detBtn = document.createElement('button'); detBtn.type = 'button'; detBtn.className = 'mini-btn'; detBtn.textContent = 'Details'; detBtn.disabled = true;
+      var refBtn = document.createElement('button'); refBtn.type = 'button'; refBtn.className = 'mini-btn icon'; refBtn.textContent = '↻';
+      refBtn.title = 'Refresh'; refBtn.setAttribute('aria-label', 'Refresh your IP address');
+      acts.appendChild(detBtn); acts.appendChild(refBtn);
+      row.appendChild(dt); row.appendChild(val); row.appendChild(acts); out.appendChild(row);
+
+      function setBusy(b) { busy = b; refBtn.disabled = b; refBtn.classList.toggle('spin', b); }
+      function clearDetails() { det.innerHTML = ''; }
+      function error(text) { msg.className = 'panel-msg err'; msg.textContent = text; }
+
+      function loadDetails() {
+        detBtn.disabled = true; msg.className = 'panel-msg'; msg.textContent = 'Loading details…';
+        return getJson('https://ipwho.is/').then(normalize)
+          .catch(function () { return getJson('https://ipinfo.io/json').then(normalize); })
+          .then(function (r) {
+            clearDetails();
+            addRow(det, 'Version', r.ip.indexOf(':') > -1 ? 'IPv6' : 'IPv4');
+            if (r.org) addRow(det, 'Provider', r.org);
+            if (r.asn) addRow(det, 'ASN', r.asn);
+            if (r.place) addRow(det, 'Location (approximate)', r.place);
+            if (r.tz) addRow(det, 'Time zone', r.tz);
+            detailsOn = true; detBtn.style.display = 'none'; msg.textContent = '';
+          })
+          .catch(function () { error('Could not load details. Check your connection or ad-blocker, then try again.'); detBtn.disabled = false; });
+      }
+
+      // Load the address. If details are already showing, refresh them too.
+      function loadIp() {
+        if (busy) return;
+        setBusy(true); msg.className = 'panel-msg'; msg.textContent = '';
+        getJson('https://api.ipify.org?format=json')
+          .then(function (j) {
+            val.textContent = j.ip;
+            val.className = 'ip-val ' + (j.ip.indexOf(':') > -1 ? 'v6' : 'v4');
+            if (detailsOn) return loadDetails();
+            detBtn.disabled = false;
+          })
+          .catch(function () { val.textContent = '–'; error('Could not detect your IP. Check your connection or ad-blocker, then try again.'); })
+          .then(function () { setBusy(false); });
+      }
+
+      detBtn.addEventListener('click', loadDetails);
+      refBtn.addEventListener('click', loadIp);
+      loadIp();
+    })();
+
+    // ── Subnet calculator ──
+    (function () {
+      var inp = document.getElementById('subnet-in'), btn = document.getElementById('subnet-btn');
+      var msg = document.getElementById('subnet-msg'), out = document.getElementById('subnet-out');
+
+      // ::SUBNET-CORE-START
+      function toInt(s) {
+        var p = s.split('.');
+        if (p.length !== 4) return null;
+        var n = 0;
+        for (var i = 0; i < 4; i++) {
+          if (!/^\d{1,3}$/.test(p[i]) || +p[i] > 255) return null;
+          n = n * 256 + +p[i];
+        }
+        return n;
+      }
+      function toIp(n) { return [n >>> 24, (n >>> 16) & 255, (n >>> 8) & 255, n & 255].join('.'); }
+      function maskOf(p) { return p === 0 ? 0 : (0xFFFFFFFF << (32 - p)) >>> 0; }
+      function prefixOf(m) {
+        var inv = (~m) >>> 0;
+        if ((inv & (inv + 1)) !== 0) return null;          // netmask bits must be contiguous
+        var p = 0;
+        for (var i = 31; i >= 0; i--) { if ((m >>> i) & 1) p++; else break; }
+        return p;
+      }
+      function bin(n) {
+        var s = (n >>> 0).toString(2);
+        while (s.length < 32) s = '0' + s;
+        return s.match(/.{8}/g).join('.');
+      }
+      function kind(n) {
+        var a = n >>> 24, b = (n >>> 16) & 255;
+        if (a === 10 || (a === 172 && b >= 16 && b <= 31) || (a === 192 && b === 168)) return 'Private (RFC 1918)';
+        if (a === 127) return 'Loopback';
+        if (a === 169 && b === 254) return 'Link-local';
+        if (a === 100 && b >= 64 && b <= 127) return 'Shared (CGNAT)';
+        if (a >= 224 && a <= 239) return 'Multicast';
+        if (a >= 240) return 'Reserved';
+        if (a === 0) return 'This network';
+        return 'Public';
+      }
+      function calcSubnet(str) {
+        var s = String(str).trim(), m = s.match(/^(\S+?)\s*\/\s*(\S+)$/) || s.match(/^(\S+)\s+(\S+)$/);
+        if (!m) return { error: s ? 'Add a prefix or netmask, for example 192.168.1.10/24.' : 'Enter an IPv4 address with a prefix, for example 192.168.1.10/24.' };
+        var ip = toInt(m[1]);
+        if (ip === null) return { error: m[1] + ' is not a valid IPv4 address.' };
+        var p, mask;
+        if (/^\d{1,2}$/.test(m[2])) {
+          p = +m[2];
+          if (p > 32) return { error: 'The prefix must be between 0 and 32.' };
+          mask = maskOf(p);
+        } else {
+          mask = toInt(m[2]);
+          p = mask === null ? null : prefixOf(mask);
+          if (p === null) return { error: m[2] + ' is not a valid netmask.' };
+        }
+        var net = (ip & mask) >>> 0, bc = (net | ~mask) >>> 0, wild = (~mask) >>> 0;
+        var total = Math.pow(2, 32 - p);
+        var usable = p <= 30 ? total - 2 : (p === 31 ? 2 : 1);
+        var first = p <= 30 ? net + 1 : net, last = p <= 30 ? bc - 1 : bc;
+        return {
+          prefix: p, ip: toIp(ip), network: toIp(net),
+          broadcast: p >= 31 ? 'n/a' : toIp(bc),
+          mask: toIp(mask), wildcard: toIp(wild),
+          first: toIp(first), last: toIp(last),
+          usable: usable, total: total, kind: kind(ip), maskBin: bin(mask)
+        };
+      }
+      // ::SUBNET-CORE-END
+
+      function row(label, value, wide) {
+        var d = document.createElement('div'); d.className = 'kv-row' + (wide ? ' wide' : '');
+        var dt = document.createElement('dt'); dt.textContent = label;
+        var dd = document.createElement('dd'), b = document.createElement('button');
+        b.type = 'button'; b.className = 'copy'; b.textContent = value; b.title = 'Copy';
+        b.addEventListener('click', function () {
+          var done = function () { msg.className = 'panel-msg'; msg.textContent = 'Copied ' + value; };
+          try { navigator.clipboard.writeText(value).then(done, function () {}); } catch (e) {}
+        });
+        dd.appendChild(b); d.appendChild(dt); d.appendChild(dd); out.appendChild(d);
+      }
+      function run() {
+        var r = calcSubnet(inp.value);
+        out.innerHTML = '';
+        if (r.error) { msg.className = 'panel-msg err'; msg.textContent = r.error; return; }
+        msg.className = 'panel-msg';
+        msg.textContent = r.ip + '/' + r.prefix + ' · select a value to copy it';
+        row('Network address', r.network + '/' + r.prefix);
+        row('Broadcast address', r.broadcast);
+        row('Subnet mask', r.mask);
+        row('Wildcard mask', r.wildcard);
+        row('First usable host', r.first);
+        row('Last usable host', r.last);
+        row('Usable hosts', r.usable.toLocaleString('en-US'));
+        row('Total addresses', r.total.toLocaleString('en-US'));
+        row('Address type', r.kind);
+        row('Subnet mask (binary)', r.maskBin, true);
+      }
+      btn.addEventListener('click', run);
+      inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') run(); });
+    })();
+
+    // ── DNS lookup (DNS over HTTPS: Cloudflare, with Google as backup) ──
+    (function () {
+      var inp = document.getElementById('dns-in'), sel = document.getElementById('dns-type'), btn = document.getElementById('dns-btn');
+      var msg = document.getElementById('dns-msg'), out = document.getElementById('dns-out');
+      var NAMES = { 1:'A', 2:'NS', 5:'CNAME', 6:'SOA', 12:'PTR', 15:'MX', 16:'TXT', 28:'AAAA', 33:'SRV', 43:'DS', 48:'DNSKEY', 257:'CAA' };
+      var RCODES = { 1:'The server could not read the query.', 2:'The DNS server failed to answer.', 3:'This domain does not exist.', 5:'The DNS server refused the query.' };
+
+      function clean(v) {
+        return v.trim().toLowerCase().replace(/^[a-z][a-z0-9+.-]*:\/\//, '').replace(/[\/?#].*$/, '').replace(/:\d+$/, '').replace(/\.$/, '');
+      }
+      function isIp4(v) { return /^(\d{1,3}\.){3}\d{1,3}$/.test(v); }
+      function ok(r) { if (!r.ok) throw new Error('http ' + r.status); return r.json(); }
+      function ask(name, type) {
+        var q = '?name=' + encodeURIComponent(name) + '&type=' + encodeURIComponent(type);
+        var opt = { headers: { accept: 'application/dns-json' }, cache: 'no-store' };
+        return fetch('https://cloudflare-dns.com/dns-query' + q, opt).then(ok)
+          .catch(function () { return fetch('https://dns.google/resolve' + q, opt).then(ok); });
+      }
+      function setMsg(t, err) { msg.className = 'panel-msg' + (err ? ' err' : ''); msg.textContent = t; }
+
+      function render(rows) {
+        var wrap = document.createElement('div'); wrap.className = 'dns-wrap';
+        var t = document.createElement('table'); t.className = 'dns-table';
+        var head = t.createTHead().insertRow();
+        ['Type', 'Name', 'TTL', 'Value'].forEach(function (h) { var th = document.createElement('th'); th.textContent = h; head.appendChild(th); });
+        var body = t.createTBody();
+        rows.forEach(function (a) {
+          var tr = body.insertRow();
+          [[NAMES[a.type] || 'TYPE' + a.type, 'type'], [a.name.replace(/\.$/, ''), 'mono'], [String(a.TTL) + 's', 'mono'], [a.data, 'mono']].forEach(function (c) {
+            var td = tr.insertCell(); td.className = c[1]; td.textContent = c[0];
+          });
+        });
+        wrap.appendChild(t); out.appendChild(wrap);
+      }
+
+      function run() {
+        var name = clean(inp.value), type = sel.value;
+        out.innerHTML = '';
+        if (!name) { setMsg('Enter a domain name, for example example.com.', true); return; }
+        if (type === 'PTR' && isIp4(name)) name = name.split('.').reverse().join('.') + '.in-addr.arpa';
+        else if (isIp4(name)) { setMsg('That is an IP address. Choose PTR to find its hostname, or enter a domain name.', true); return; }
+        var types = type === 'ALL' ? ['A', 'AAAA', 'CNAME', 'MX', 'NS', 'TXT'] : [type];
+        btn.disabled = true; setMsg('Looking up ' + name + '…');
+        Promise.all(types.map(function (t) { return ask(name, t).catch(function () { return null; }); })).then(function (res) {
+          var good = res.filter(Boolean);
+          if (!good.length) { setMsg('Could not reach the DNS resolvers. Check your connection or ad-blocker, then try again.', true); return; }
+          var rows = [];
+          good.forEach(function (r) { (r.Answer || []).forEach(function (a) { rows.push(a); }); });
+          var fail = good.filter(function (r) { return r.Status !== 0; });
+          if (!rows.length) {
+            var rc = fail.length ? fail[0].Status : 0;
+            setMsg(RCODES[rc] || 'No ' + (type === 'ALL' ? '' : type + ' ') + 'records found for ' + name + '.', rc !== 0);
+            return;
+          }
+          setMsg(rows.length + (rows.length === 1 ? ' record' : ' records') + ' for ' + name);
+          render(rows);
+        }).then(function () { btn.disabled = false; }, function () { btn.disabled = false; setMsg('Something went wrong. Try again.', true); });
+      }
+      btn.addEventListener('click', run);
+      inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') run(); });
+    })();
+
+    // ── WHOIS lookup (RDAP) ──
+    (function () {
+      var inp = document.getElementById('whois-in'), btn = document.getElementById('whois-btn');
+      var msg = document.getElementById('whois-msg'), out = document.getElementById('whois-out');
+
+      // ::RDAP-CORE-START
+      function fmtDate(d) { var t = new Date(d); return isNaN(t) ? '' : t.toISOString().slice(0, 10); }
+      function evt(j, action) {
+        var e = (j.events || []).filter(function (x) { return x.eventAction === action; })[0];
+        return e ? e.eventDate : '';
+      }
+      function registrarOf(j) {
+        var ent = (j.entities || []).filter(function (e) { return (e.roles || []).indexOf('registrar') > -1; })[0];
+        if (!ent) return '';
+        var card = (ent.vcardArray && ent.vcardArray[1]) || [];
+        var fn = card.filter(function (c) { return c[0] === 'fn'; })[0];
+        return fn ? fn[3] : (ent.handle || '');
+      }
+      function parseDomain(j, now) {
+        var rows = [], exp = evt(j, 'expiration');
+        rows.push(['Domain', String(j.ldhName || '').toLowerCase()]);
+        if (registrarOf(j)) rows.push(['Registrar', registrarOf(j)]);
+        if (evt(j, 'registration')) rows.push(['Registered', fmtDate(evt(j, 'registration'))]);
+        if (exp) {
+          var days = Math.round((new Date(exp) - now) / 86400000);
+          rows.push(['Expires', fmtDate(exp) + (isNaN(days) ? '' : days >= 0 ? ' (in ' + days + ' days)' : ' (expired ' + (-days) + ' days ago)')]);
+        }
+        if (evt(j, 'last changed')) rows.push(['Last changed', fmtDate(evt(j, 'last changed'))]);
+        if (j.secureDNS) rows.push(['DNSSEC', j.secureDNS.delegationSigned ? 'Signed' : 'Unsigned']);
+        if (j.status && j.status.length) rows.push(['Status', j.status.join(', '), true]);
+        var ns = (j.nameservers || []).map(function (n) { return String(n.ldhName || '').toLowerCase(); }).filter(Boolean);
+        if (ns.length) rows.push(['Name servers', ns.join(', '), true]);
+        return rows;
+      }
+      function parseIp(j) {
+        var rows = [];
+        if (j.name) rows.push(['Network name', j.name]);
+        if (j.handle) rows.push(['Handle', j.handle]);
+        if (j.startAddress && j.endAddress) rows.push(['Range', j.startAddress + ' – ' + j.endAddress, true]);
+        if (j.country) rows.push(['Country', j.country]);
+        if (j.type) rows.push(['Type', j.type]);
+        return rows;
+      }
+      // ::RDAP-CORE-END
+
+      function setMsg(t, err) { msg.className = 'panel-msg' + (err ? ' err' : ''); msg.textContent = t; }
+      function run() {
+        var q = cleanHost(inp.value);
+        out.innerHTML = '';
+        if (!q) { setMsg('Enter a domain name, for example example.com.', true); return; }
+        var isIp = /^(\d{1,3}\.){3}\d{1,3}$/.test(q) || q.indexOf(':') > -1;
+        btn.disabled = true; setMsg('Looking up ' + q + '…');
+        fetch('https://rdap.org/' + (isIp ? 'ip/' : 'domain/') + encodeURIComponent(q), { cache: 'no-store' })
+          .then(function (r) {
+            if (r.status === 404) throw new Error('notfound');
+            if (!r.ok) throw new Error('http');
+            return r.json();
+          })
+          .then(function (j) {
+            var rows = isIp ? parseIp(j) : parseDomain(j, new Date());
+            if (!rows.length) throw new Error('empty');
+            setMsg('Registration data for ' + q);
+            rows.forEach(function (r) { addRow(out, r[0], r[1], r[2]); });
+          })
+          .catch(function (e) {
+            if (e.message === 'notfound') setMsg('No registration record found for ' + q + '. It may be unregistered, or its registry does not offer RDAP.', true);
+            else setMsg('The lookup service did not respond. Check your connection or ad-blocker, then try again.', true);
+          })
+          .then(function () { btn.disabled = false; });
+      }
+      btn.addEventListener('click', run);
+      inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') run(); });
+    })();
+
+    // ── Latency check (HTTPS round trips measured in the browser) ──
+    (function () {
+      var inp = document.getElementById('lat-in'), btn = document.getElementById('lat-btn');
+      var msg = document.getElementById('lat-msg'), out = document.getElementById('lat-out');
+      var COUNT = 6, TIMEOUT = 5000;
+      function setMsg(t, err) { msg.className = 'panel-msg' + (err ? ' err' : ''); msg.textContent = t; }
+      function once(host) {
+        var c = new AbortController(), t0 = performance.now(), tm = setTimeout(function () { c.abort(); }, TIMEOUT);
+        return fetch('https://' + host + '/?_=' + Math.random().toString(36).slice(2), { mode: 'no-cors', cache: 'no-store', signal: c.signal })
+          .then(function () { clearTimeout(tm); return performance.now() - t0; }, function () { clearTimeout(tm); return null; });
+      }
+      async function run() {
+        var host = cleanHost(inp.value);
+        out.innerHTML = '';
+        if (!host || !/^[a-z0-9]([a-z0-9.-]*[a-z0-9])?$/.test(host)) { setMsg('Enter a host name, for example example.com.', true); return; }
+        btn.disabled = true;
+        var res = [];
+        for (var i = 0; i < COUNT; i++) {
+          setMsg('Testing ' + host + '… ' + (i + 1) + ' of ' + COUNT);
+          res.push(await once(host));
+        }
+        btn.disabled = false;
+        var ok = res.filter(function (x) { return x !== null; });
+        if (!ok.length) { setMsg('Could not reach ' + host + ' over HTTPS. Check the name, or the site may block browser requests.', true); return; }
+        var rest = res.slice(1).filter(function (x) { return x !== null; });
+        var sample = rest.length ? rest : ok;
+        var sum = sample.reduce(function (a, b) { return a + b; }, 0), avg = sum / sample.length;
+        var jit = 0;
+        for (var k = 1; k < sample.length; k++) jit += Math.abs(sample[k] - sample[k - 1]);
+        jit = sample.length > 1 ? jit / (sample.length - 1) : 0;
+        var ms = function (n) { return n.toFixed(0) + ' ms'; };
+        setMsg('Results for ' + host);
+        addRow(out, 'Average', ms(avg));
+        addRow(out, 'Fastest', ms(Math.min.apply(null, sample)));
+        addRow(out, 'Slowest', ms(Math.max.apply(null, sample)));
+        addRow(out, 'Jitter', ms(jit));
+        addRow(out, 'First request (includes connection setup)', res[0] === null ? 'failed' : ms(res[0]), true);
+        addRow(out, 'Failed requests', String(res.length - ok.length) + ' of ' + res.length);
+      }
+      btn.addEventListener('click', run);
+      inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') run(); });
+    })();
+
+    // ── Speed test ──
+    (function () {
+      var $ = function (id) { return document.getElementById(id); };
+      var BASE = 'https://speed.cloudflare.com';
+      var arc = $('gauge-arc'), val = $('gauge-val'), phaseEl = $('gauge-phase');
+      var startBtn = $('speed-start'), statusEl = $('speed-status');
+      var out = { ping:$('sp-ping'), jitter:$('sp-jitter'), down:$('sp-down'), up:$('sp-up') };
+      var running = false, ctrl = null;
+
+      function setGauge(m) {
+        var pct = Math.min(1, Math.log10(1 + Math.max(0, m)) / Math.log10(1001));
+        arc.style.strokeDashoffset = String(100 - pct * 100);
+        val.textContent = m >= 100 ? String(Math.round(m)) : m.toFixed(1);
+      }
+      function setStatus(t, err) { statusEl.textContent = t; statusEl.classList.toggle('err', !!err); }
+
+      function meter(onRate) {
+        var bytes = 0, base = 0, tBase = 0;
+        var t0 = performance.now();
+        var id = setInterval(function () {
+          var n = performance.now();
+          if (n - t0 < 700) return;
+          if (!tBase) { tBase = n; base = bytes; return; }
+          onRate((bytes - base) * 8 / ((n - tBase) / 1000) / 1e6);
+        }, 150);
+        return {
+          add: function (n) { bytes += n; },
+          stop: function () {
+            clearInterval(id);
+            if (!tBase) return 0;
+            return (bytes - base) * 8 / ((performance.now() - tBase) / 1000) / 1e6;
+          }
+        };
+      }
+
+      async function measurePing(signal) {
+        var t = [];
+        for (var i = 0; i < 8; i++) {
+          var s = performance.now();
+          await fetch(BASE + '/__down?bytes=0&r=' + Math.random(), { cache:'no-store', signal: signal });
+          if (i > 0) t.push(performance.now() - s);
+        }
+        var sorted = t.slice().sort(function (a, b) { return a - b; });
+        var j = 0;
+        for (var k = 1; k < t.length; k++) j += Math.abs(t[k] - t[k - 1]);
+        return { ping: sorted[Math.floor(sorted.length / 2)], jitter: j / (t.length - 1) };
+      }
+
+      async function measureDown(signal, ms) {
+        var m = meter(setGauge);
+        var ac = new AbortController();
+        var onAbort = function () { ac.abort(); };
+        signal.addEventListener('abort', onAbort);
+        var done = false;
+        var worker = async function () {
+          while (!done) {
+            var r = await fetch(BASE + '/__down?bytes=25000000&r=' + Math.random(), { cache:'no-store', signal: ac.signal });
+            var rd = r.body.getReader();
+            while (!done) {
+              var chunk = await rd.read();
+              if (chunk.done) break;
+              m.add(chunk.value.length);
+            }
+          }
+        };
+        var workers = [0, 1, 2, 3].map(function () { return worker().catch(function () {}); });
+        await new Promise(function (r) { setTimeout(r, ms); });
+        done = true; ac.abort();
+        signal.removeEventListener('abort', onAbort);
+        await Promise.allSettled(workers);
+        var res = m.stop();
+        if (signal.aborted) throw new DOMException('Aborted', 'AbortError');
+        if (!res) throw new Error('no-data');
+        return res;
+      }
+
+      function measureUp(signal, ms) {
+        return new Promise(function (resolve, reject) {
+          var m = meter(setGauge);
+          var blob = new Blob([new Uint8Array(4 * 1024 * 1024)]);
+          var xhrs = [];
+          var stop = false, settled = false;
+          function launch() {
+            if (stop) return;
+            var x = new XMLHttpRequest();
+            xhrs.push(x);
+            var prev = 0;
+            x.open('POST', BASE + '/__up');
+            x.upload.onprogress = function (e) { m.add(e.loaded - prev); prev = e.loaded; };
+            x.onload = launch;
+            x.onerror = function () {};
+            x.send(blob);
+          }
+          function finish(aborted) {
+            if (settled) return;
+            settled = true; stop = true;
+            xhrs.forEach(function (x) { try { x.abort(); } catch (e) {} });
+            var res = m.stop();
+            if (aborted) reject(new DOMException('Aborted', 'AbortError'));
+            else if (!res) reject(new Error('no-data'));
+            else resolve(res);
+          }
+          for (var i = 0; i < 3; i++) launch();
+          setTimeout(function () { finish(false); }, ms);
+          signal.addEventListener('abort', function () { finish(true); });
+        });
+      }
+
+      async function runTest() {
+        if (running) { ctrl.abort(); return; }
+        running = true;
+        ctrl = new AbortController();
+        var sig = ctrl.signal;
+        startBtn.textContent = 'STOP';
+        startBtn.classList.add('stop');
+        Object.keys(out).forEach(function (k) { out[k].textContent = '–'; });
+        setGauge(0); setStatus('');
+        try {
+          phaseEl.textContent = 'Ping';
+          setStatus('Measuring latency…');
+          var p = await measurePing(sig);
+          out.ping.textContent = Math.round(p.ping);
+          out.jitter.textContent = p.jitter.toFixed(1);
+
+          phaseEl.textContent = 'Download';
+          setStatus('Testing download speed…');
+          var d = await measureDown(sig, 8000);
+          out.down.textContent = d.toFixed(1);
+          setGauge(d);
+
+          setGauge(0);
+          phaseEl.textContent = 'Upload';
+          setStatus('Testing upload speed…');
+          var u = await measureUp(sig, 6000);
+          out.up.textContent = u.toFixed(1);
+          setGauge(u);
+
+          phaseEl.textContent = 'Complete';
+          setStatus('✓ Test complete');
+        } catch (e) {
+          setGauge(0);
+          if (e && e.name === 'AbortError') {
+            phaseEl.textContent = 'Stopped'; setStatus('Test stopped.');
+          } else {
+            phaseEl.textContent = 'Error';
+            setStatus('Could not reach the test server. Check your connection or ad-blocker, then try again.', true);
+          }
+        } finally {
+          running = false;
+          startBtn.textContent = 'TEST AGAIN';
+          startBtn.classList.remove('stop');
+        }
+      }
+      startBtn.addEventListener('click', runTest);
+    })();
+  </script>
+</body>
+</html>
